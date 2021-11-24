@@ -127,3 +127,34 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+# Cookiecutter
+output/
+python_boilerplate/
+cookiecutter-comp-bio-env/
+
+# IDE settings
+.vscode/
+
+# Mac OS-specific storage files
+.DS_Store
+
+
+# exclude data from source control by default
+# /data/**
+# !/data/**/
+# !/data/**/*.txt
+# !/data/**/*.md
+
+
+# vim
+*.swp
+*.swo
+
+
+# virtual env
+# /venv/
+# /env/
+
+# !/**/.gitkeep

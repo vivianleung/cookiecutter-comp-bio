@@ -1,0 +1,17 @@
+{
+    "full_name": "Vivian Leung",
+    "email": "vivianleung@example.com",
+    "github_username": "vivianleung",
+    "project_name": "Python Boilerplate",
+    "repo_name": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
+    "description": "A short description of the project.",
+    "repo_pkg_name": "src",
+    "version": "0.1.0",
+    "use_pytest": "n",
+    "command_line_interface": ["Click", "Argparse", "No command-line interface"],
+    "python_interpreter": ["python3", "python"],
+    "init_snakemake": "y",
+    "license": [
+        "MIT", "Apache 2.0", "BSD 3-Clause", "No license file"
+    ]
+}
