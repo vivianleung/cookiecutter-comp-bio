@@ -11,12 +11,15 @@ setup(
     name='{{ cookiecutter.repo_pkg_name }}',
     author='{{ cookiecutter.full_name }}',
     author_email='{{ cookiecutter.email }}',
+    project_name='{{ cookiecutter.project_name }}',
     description='{{ cookiecutter.description }}',
-    version='{{cookiecutter.version}}',
+    version='{{ cookiecutter.version }}',
     include_package_data=True,
     packages=find_packages(include=['{{ cookiecutter.repo_pkg_name }}', '{{ cookiecutter.repo_pkg_name }}.*']),
-{% if cookiecutter.license in license_names %}
-    license="{{ license_names[cookiecutter.license] }}",
+{%- if cookiecutter.license in license_names -%}
+    license="{{ license_names[cookiecutter.license.strip()] }}",
 {% endif %}
-    url='https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.repo_name }}',
+{%- if cookiecutter.github_username -%}
+    url='https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}',
+{% endif %}
 )

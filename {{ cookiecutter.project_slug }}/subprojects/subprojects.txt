@@ -1,0 +1,48 @@
+# subprojects/subprojects.txt
+
+A roster of subprojects
+
+{{ cookiecutter.full_name }}
+Created {% now 'utc', '%d %j %Y' %}
+Updated {% now 'utc', '%d %j %Y' %}
+
+The script bin/init_subproject.sh can be used to set up a subproject/run directory. (Run with --help for more details)
+
+
+See project descriptions after Roster section.
+
+ROSTER FORMAT:
+---------------  --------------------------------------------------------------
+- Name:          Project/directory name
+- Created:       Date of creation  (DD MMM YYYY)
+- Last updated:  Date last updated (DD MMM YYYY)
+- Status:        One of three stages:
+                    - Active:   in active use/development
+                    - Inactive: not in development, but not ready for archiving
+                    - Closed:   completed, no longer used (moved to archive/)
+
+
+
+
+## Roster
+
+NAME            CREATED      LAST UPDATED STATUS 
+--------------- -----------  ------------ ------
+my_subproject   {% now 'utc', '%d %j %Y' %}  {% now 'utc', '%d %j %Y' %} Dec 2021  Active
+
+
+
+## Descriptions
+
+### Active
+
+- my_subproject: An example subproject.
+
+### Inactive
+
+
+
+### Closed
+
+- test_ebi_fastp: Test download sample from EBI and trim/QC with fastp
+- 
