@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 
-###### TODO: CHANGE AS NECESSARY #####
+# Torque script to submit CUDA C/C++ programs.
+# Torque directives
 
-#PBS -N <NAME>
+### Type of queue: stdq1 | medq1 | fatq1 | gpuq1 | quickq1
+###### TODO: CHANGE AS NECESSARY #####
+#PBS -N JOB_NAME
 #PBS -M {{ cookiecutter.hpc_mail_name }}
 #PBS -v CONDA_PREFIX,MODULEPATH
 
@@ -10,10 +13,23 @@
 #PBS -r n
 #PBS -k oed 
 
+
+##############################
+
 ### Queue name (qaussian)
+### Queue gaussian: Walltime can be  00:00:01 to 336:00:00
+### Choose either (stdq1, medq1, fatq1 or gpuq1)
 #PBS -q stdq1
+
+### Wall time required. This example is 196 hours
 #PBS -l walltime=196:00:00
+
+### Number of nodes 
+### The following means 1 nodes required. Processor Per Node=40,
+### ppn (Processor Per Node) can be any number up to 40 for stdq1.
+### 48 for gpuq1, 64 for medq1 and fatq1
 #PBS -l nodes=1:ppn=40
+
 
 
 ##############################  Stuff for PBS  ###########################

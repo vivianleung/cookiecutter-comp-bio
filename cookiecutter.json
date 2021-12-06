@@ -3,7 +3,7 @@
     "email": "vivianleung@example.com",
     "github_username": "vivianleung",
     "initials": "{%- for n in cookiecutter.full_name.replace('-',' ').upper().split(' ') -%}{{ n[0] }}{% endfor %}",
-    "project_name": "Python Boilerplate",
+    "project_name": "My Comp Bio Project",
     "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '-') }}",
     "description": "A short description of the project.",
     "repo_pkg_name": "src",
@@ -13,7 +13,7 @@
     "python_interpreter": ["python3", "python"],
     "command_line_interface": ["Click", "Argparse", "No command-line interface"],
     "init_snakemake": ["y", "n"],
-    "hpc_cluster": ["None", "Torque", "Torque-D24H", "Slurm"],
+    "hpc": ["None", "Torque", "Torque-D24H", "Slurm"],
     "hpc_mail_name": "{%- if cookiecutter.github_username != '' -%}{{ cookiecutter.github_username }}{% else %}{{ cookiecutter.full_name.replace(' ', '_') }}{% endif %}"
 }
 

@@ -1,7 +1,9 @@
 #!/bin/bash
 
-#SBATCH -o=slurm-%j.o
-#SBATCH -e=slurm-%j.e
+#SBATCH -J JOB_NAME
+#SBATCH -o=slurm-%J.o
+#SBATCH -e=slurm-%J.e
+
 
 #### TODO: CHANGE AS NECESSARY ###
 #SBATCH --cpus-per-task=4

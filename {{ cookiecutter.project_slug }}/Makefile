@@ -91,18 +91,17 @@ mk_repo_pkg_dir:
 
 
 hpc_cluster_dir:
-	HPC_TEMPLATES_DIR := $(PROJECT_DIR)/hpc_templates
+
+	hpc_template_dir := $(PROJECT_DIR)/bin/hpc_templates/
 	ifeq (Slurm,{{ cookiecutter.hpc_cluster }})
-		mkdir -p $(PROJECT_DIR)/slurm
-		cp -p $(HPC_TEMPLATES_DIR)/template_slurm.sh $(PROJECT_DIR)/slurm/slurm_template.sh
+		cp -p $(hpc_template_dir)/template_slurm.sh $(PROJECT_DIR)/bin/template_slurm.pbs
 	else ifeq (Torque,{{ cookiecutter.hpc_cluster }})	
-		mkdir -p $(PROJECT_DIR)/pbs
-		cp -p $(HPC_TEMPLATES_DIR)/template_default.pbs $(PROJECT_DIR)/pbs/template.pbs
+		cp -p $(hpc_template_dir)/template.pbs $(PROJECT_DIR)/bin/template.pbs
 	else ifeq (Torque-D24H,{{ cookiecutter.hpc_cluster }}) 
-		mkdir -p $(PROJECT_DIR})/pbs
-		cp -p $(HPC_TEMPLATES_DIR)/template_d24h.pbs $(PROJECT_DIR)/pbs/template.pbs
+		cp -p $(hpc_template_dir)/template_d24h.pbs $(PROJECT_DIR)/bin/template.pbs
 	endif
-	rm -r $(HPC_TEMPLATES_DIR)
+	rm -r $(hpc_template_dir)
+
 
 
 example_subproject:
