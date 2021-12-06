@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# 0_1-{{ cookiecutter.name_initials }}-dummy.py
+# 0_1-{{ cookiecutter.initials }}-dummy.py
 
 # This is a dummy template that does dumb stuff. [MAIN DESCRIPTION]
 

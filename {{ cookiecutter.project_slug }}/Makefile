@@ -1,4 +1,4 @@
-.PHONY hpc_cluster_dir example_subproject create_env rm_smk mk_repo_pkg_dir
+.PHONY hpc_template example_subproject create_env rm_smk mk_repo_pkg_dir
 # check_pkg_name
 
 ###############################################################################
@@ -90,17 +90,23 @@ mk_repo_pkg_dir:
 	$(shell mkdir "$(PROJECT_DIR)/$(REPO_PKG_NAME)")
 
 
-hpc_cluster_dir:
-
-	hpc_template_dir := $(PROJECT_DIR)/bin/hpc_templates/
-	ifeq (Slurm,{{ cookiecutter.hpc_cluster }})
-		cp -p $(hpc_template_dir)/template_slurm.sh $(PROJECT_DIR)/bin/template_slurm.pbs
-	else ifeq (Torque,{{ cookiecutter.hpc_cluster }})	
-		cp -p $(hpc_template_dir)/template.pbs $(PROJECT_DIR)/bin/template.pbs
-	else ifeq (Torque-D24H,{{ cookiecutter.hpc_cluster }}) 
-		cp -p $(hpc_template_dir)/template_d24h.pbs $(PROJECT_DIR)/bin/template.pbs
+hpc_template:
+	ifneq ({{ cookiecutter.hpc}},)
+		ifeq ({{ cookiecutter.hpc }},Torque)
+			dest_dir := $(PROJECT_DIR)/pbs
+			template := template.pbs
+		else ifeq (({{ cookiecutter.hpc }}),Torque-D24H)
+			dest_dir := $(PROJECT_DIR)/pbs
+			template := template_d24h.pbs
+		else ifeq ({{ cookiecutter.hpc }},Slurm)
+			dest_dir := $(PROJECT_DIR/slurm)
+			template := template_slurm.sh
+		endif
+		mkdir -p $(dest_dir)
+		cp -p $(PROJECT_DIR)/bin/hpc_templates/$(template) $(dest_dir)
 	endif
 	rm -r $(hpc_template_dir)
+	
 
 
 

@@ -12,4 +12,12 @@ USER_INITIALS="{{ cookiecutter.initials }}"
 
 PROJECT_NAME="{{ cookiecutter.project_name }}"
 PROJECT_SLUG="{{ cookiecutter.project_slug }}"
-HPC_TYPE="{{ cookiecutter.hpc_cluster }}"
+
+{% set hpc_templates = {
+  'Torque': '../bin/template.pbs' ;;
+  'Torque-D24H': '../bin/template_d24h.pbs' ;;
+  'Slurm': '../bin/template.slurm' ;;
+  'None': ''
+} %}
+
+HPC_TEMPLATE="{{ hpc_templates[cookiecutter.hpc] }}"
