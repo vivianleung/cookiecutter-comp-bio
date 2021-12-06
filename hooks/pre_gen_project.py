@@ -1,25 +1,15 @@
 #!/usr/bin/env python
 
 from cookiecutter.main import cookiecutter
-import sys
+# import sys
 
 
 initials = ''.join(
     '{{ cookiecutter.full_name }}'.replace('-',' ').upper().split())
 
 
-try:
-    cookiecutter(
-        "cookiecutter-comp-bio/",
-        extra_context={
-            'initials': initials,
-            
-        }
-    )
-
-except:
-    sys.exit(1)
-
+cookiecutter("cookiecutter-comp-bio",
+             extra_context={'initials': initials})
 
 
 

@@ -1,4 +1,4 @@
-.PHONY hpc_template example_subproject create_env rm_smk mk_repo_pkg_dir
+.PHONY  create_env hpc_template my_subproject rm_smk 
 # check_pkg_name
 
 ###############################################################################
@@ -86,12 +86,10 @@ create_env:
 		endif
 	endif
 
-mk_repo_pkg_dir:
-	$(shell mkdir "$(PROJECT_DIR)/$(REPO_PKG_NAME)")
 
 
 hpc_template:
-	ifneq ({{ cookiecutter.hpc}},)
+	ifneq ({{ cookiecutter.hpc }},)
 		ifeq ({{ cookiecutter.hpc }},Torque)
 			dest_dir := $(PROJECT_DIR)/pbs
 			template := template.pbs
@@ -110,9 +108,14 @@ hpc_template:
 
 
 
-example_subproject:
-	$(shell $(PROJECT_DIR)/bin/init_subproject.sh -d '$(PROJECT_DIR)/subprojects/' my_subproject)
-
+my_subproject:
+	init_script := $(PROJECT_DIR)/bin/init_subproject.sh
+	subprojects_dir := $(PROJECT_DIR)/subprojects
+	ifeq ({{ cookiecutter.hpc }},None)
+		$(shell $(init_script) -d '$(subprojects_dir)' my_subproject)
+	else
+		$(shell $(init_script) -j -d '$(subprojects_dir)' my_subproject)
+	endif
 
 
 
