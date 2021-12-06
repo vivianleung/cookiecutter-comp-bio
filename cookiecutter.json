@@ -1,0 +1,19 @@
+{
+    "full_name": "Vivian Leung",
+    "email": "vivianleung@example.com",
+    "github_username": "vivianleung",
+    "initials": "{%- for n in cookiecutter.full_name.replace('-',' ').upper().split(' ') -%}{{ n[0] }}{% endfor %}",
+    "project_name": "My Comp Bio Project",
+    "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '-') }}",
+    "description": "A short description of the project.",
+    "repo_pkg_name": "src",
+    "version": "0.1.0",
+    "license": ["MIT", "Apache 2.0", "BSD 3-Clause", "No license file"],
+    "create_env": ["Do not create", "./venv", "{{ cookiecutter.project_slug }}", "base"],
+    "python_interpreter": ["python3", "python"],
+    "command_line_interface": ["Click", "Argparse", "No command-line interface"],
+    "init_snakemake": ["y", "n"],
+    "hpc": ["None", "Torque", "Torque-D24H", "Slurm"],
+    "hpc_mail_name": "{%- if cookiecutter.github_username != '' -%}{{ cookiecutter.github_username }}{% else %}{{ cookiecutter.full_name.replace(' ', '_') }}{% endif %}"
+}
+

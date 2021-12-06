@@ -1,0 +1,36 @@
+# usage: (from main repo dir)
+#   conda env create -f=environment.yml -p ./env 
+
+{%- set python_version = cookiecutter.python_interpreter.replace('python','') -%}
+
+{%- if python_version != '' -%}
+python>='{{ python_version }}'
+{% else %}
+python>=2.7    
+{% endif %}
+pip
+{%- if cookiecutter.init_snakemake == 'y' -%}
+mamba
+snakemake
+{% endif %}
+# cli tools
+click
+flake8
+autopep8
+python-dotenv>=0.5.1
+# standard data science packages
+numpy
+pandas
+openpyxl  # required for pandas excel functions
+seaborn
+matplotlib
+biopython
+jupyter
+# misc packages
+regex
+lxml
+pathlib2  # for backward compatibility
+pip:
+  - -e .  # workaround to import src modules in notebooks
+    # - sra-tools>=2.11.3
+
