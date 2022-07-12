@@ -95,5 +95,6 @@ projects/
       └── snippets.sh
 
 --------
+<p><small>Cookiecutter project created from vivianleung/cookiecutter-comp-bio</small></p>
 
 <!-- <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p> -->

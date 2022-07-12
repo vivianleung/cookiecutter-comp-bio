@@ -126,7 +126,7 @@ proj_dir="${root_dir:-.}/${project}"
 # ####  Make directories  ####
 
 # general dirs
-mkdir -pv "${proj_dir}/"{analysis,config/rosters,exports/figures,exports/tables,jobs,logs,notes,resources,scripts}
+mkdir -pv "${proj_dir}/"{analysis,config/rosters,data,exports/figures,exports/tables,jobs,logs,notes,resources,scripts}
 
 # touch "${proj_dir}"/{data,jobs}/.gitkeep
 
