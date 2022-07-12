@@ -62,9 +62,10 @@ Project Organization
 
 For project directories
 -----------------------
+
 projects/
 
-  └── PROJECT_NAME/
+  └── PROJECT\_NAME/
       ├── about.txt     <-- Metadata and description of project
       │
       ├── analysis/     <-- Analyzed data that can be used to make figures
