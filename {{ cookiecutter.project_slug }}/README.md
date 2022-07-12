@@ -65,36 +65,36 @@ For project directories
 
 projects/
 
-  └── PROJECT\_NAME/
-      ├── about.txt     <-- Metadata and description of project
-      │
-      ├── analysis/     <-- Analyzed data that can be used to make figures
-      │
-      ├── config/       <-- Config files
-      │   └── rosters/  <-- Roster tables used as input for jobs
-      │
-      ├── data/         <-- Raw/intermediate files
-      │   ├── .gitignore
-      │   └── .../
-      │
-      ├── exports/      <-- Finished figures and tables exported from analysis
-      │   ├── figures/  <-- figures
-      │   └── tables/   <-- formatted tables
-      │
-      ├── logs/         <-- Job log files
-      │
-      ├── notes/        <-- Notes written by user
-      │
-      ├── resources/    <-- (meta)data or supplementary/accessory external info 
-      │
-      ├── jobs/         <-- Parent directory for running jobs
-      │   ├── .gitignore
-      │   └── JOB_NAME-DATE-JID/
-      │
-      ├── scripts/      <-- ad-hoc scripts used in this particular project
-      │
-      ├── snippets.py
-      └── snippets.sh
+    └── PROJECT\_NAME/
+        ├── about.txt     <-- Metadata and description of project
+        │
+        ├── analysis/     <-- Analyzed data that can be used to make figures
+        │
+        ├── config/       <-- Config files
+        │   └── rosters/  <-- Roster tables used as input for jobs
+        │
+        ├── data/         <-- Raw/intermediate files
+        │   ├── .gitignore
+        │   └── .../
+        │
+        ├── exports/      <-- Finished figures and tables exported from analysis
+        │   ├── figures/  <-- figures
+        │   └── tables/   <-- formatted tables
+        │
+        ├── logs/         <-- Job log files
+        │
+        ├── notes/        <-- Notes written by user
+        │
+        ├── resources/    <-- (meta)data or supplementary/accessory external info 
+        │
+        ├── jobs/         <-- Parent directory for running jobs
+        │   ├── .gitignore
+        │   └── JOB_NAME-DATE-JID/
+        │
+        ├── scripts/      <-- ad-hoc scripts used in this particular project
+        │
+        ├── snippets.py
+        └── snippets.sh
 
 --------
 <p><small>Cookiecutter project created from vivianleung/cookiecutter-comp-bio</small></p>
