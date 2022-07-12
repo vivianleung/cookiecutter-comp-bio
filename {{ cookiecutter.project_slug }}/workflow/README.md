@@ -1,8 +1,0 @@
-# workflow
-
-For Snakemake processes
-
-
-
-
-

@@ -1,8 +1,12 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-# 0_1-{{ cookiecutter.initials }}-dummy.py
+# 00_1-{{ cookiecutter.initials }}-dummy.py
 
 # This is a dummy template that does dumb stuff. [MAIN DESCRIPTION]
+
+# {{ cookiecutter.full_name }}
+# Created:      {% now 'utc', '%d %b %Y' %}
+# Last updated: {% now 'utc', '%d %b %Y' %}
 
 # Input:
 #   Files:
@@ -14,13 +18,10 @@
 # Output (files):
 #   - Gibberish in format .txt
 #       "foo-{suffix}.txt"
-
-# {{ cookiecutter.full_name }}
-# Created: {%- now 'utc' '%d %j %Y' -%} 
 # 
-# NOTE: ex. ("this script does not work or is deprecated",
-#            "this script is complete/has been tested", caveats, etc.
-#            )
+# NOTE: ("this script does not work or is deprecated",
+#        "this script is complete/has been tested", caveats, etc.
+#        )
 
 #%%
 # #####  IMPORTS  #####
@@ -32,13 +33,14 @@ from typing import Annotated, Any, Union # see Python doc on 'typing' module
 # third-party
 # import pandas as pd
 
-# custom (i.e. from {{ cookiecutter.repo_pkg_name }}/)
-# from {{ cookiecutter.repo_pkg_name }} import modules
+# custom (i.e. from src/)
+# from src.example_module import example_submodule
+from {{ cookiecutter.repo_pkg_name }}.utils import default, now, strjoin
 
 #%%
 # #####  USER PARAMS  #####  (for notebooks)
 
-OUT_DIR = '../subprojects/my_subproject/data/raw'
+OUT_DIR = "../projects/myproject/foo"
 SUFFIX = None             # default DATE (e.g. 2021-09-20-1610)
 
 #%%

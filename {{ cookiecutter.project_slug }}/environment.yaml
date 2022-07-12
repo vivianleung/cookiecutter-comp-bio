@@ -1,0 +1,21 @@
+# Usage: (from main repo dir)
+
+# First install mamba using conda
+#   conda env create -f=environment.yaml -p ./env 
+
+# Then, use mamba to install all other packages (faster than conda)
+#   mamba env update -f=environment_mamba.yaml -p ./env
+
+# Note: ensure that /env/ is listed in .gitignore
+# for abbreviated prompt env name:
+#   conda config --set env_prompt "(\$(basename {default_env})) "
+
+channels:
+    - conda-forge
+    - bioconda
+    - defaults
+
+dependencies:
+    - python=3.9
+    - conda-forge::mamba
+

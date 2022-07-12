@@ -1,0 +1,27 @@
+channels:
+    - conda-forge
+    - bioconda
+    - defaults
+
+dependencies:
+    - python=3.9
+    - pip
+    - pathlib2
+    - numpy
+    - pandas
+    - seaborn
+    - matplotlib
+    - regex
+    - jupyter
+    - click
+    - flake8
+    - autopep8
+    - python-dotenv>=0.5.1
+    - lxml
+    - openpyxl  # req dep for pandas excel funcs
+    - fsspec    # req dep for pandas json funcs
+    - snakemake-minimal
+#    - biopython
+    - pip:
+        - -e .  # workaround to import src modules in notebooks
+

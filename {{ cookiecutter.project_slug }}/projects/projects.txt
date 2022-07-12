@@ -1,0 +1,42 @@
+# projects/projects.txt
+
+{{ cookiecutter.full_name }}
+{{ cookiecutter.email }}
+
+Created:      {% now 'utc', '%d %b %Y' %}
+Last updated: {% now 'utc', '%d %b %Y' %}
+
+Directory is organized by project/run to better separate sub-projects/runs
+
+Init project directory with ROOT_DIR/bin/mkproject.sh 
+
+Roster format:
+- Name:          Project/directory name
+- Created:       Date of creation  (DD MMM YYYY)
+- Last updated:  Date last updated (DD MMM YYYY)
+- Status:        One of three stages:
+                    - Active:   in active use/development
+                    - Inactive: not in development, but not ready for archiving
+                    - Archived:   completed, no longer used (moved to archive/)
+
+
+See project descriptions after Roster section.
+
+
+## Roster
+
+NAME                    CREATED      LAST UPDATED STATUS 
+--------------------    -----------  ------------ ------
+myproject               {% now 'utc', '%d %b %Y' %}  {% now 'utc', '%d %b %Y' %}  Active
+
+
+## Descriptions
+
+### Active
+
+- myproject 
+
+### Inactive
+
+### Archived
+
