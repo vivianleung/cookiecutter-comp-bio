@@ -12,8 +12,7 @@
     "create_env": ["Do not create", "./venv", "{{ cookiecutter.project_slug }}", "base"],
     "python_interpreter": ["python3", "python"],
     "command_line_interface": ["Click", "Argparse", "No command-line interface"],
-    "init_snakemake": ["y", "n"],
-    "hpc": ["None", "Torque", "Torque-D24H", "Slurm"],
+    "hpc": ["None", "Torque", "Slurm"],
     "hpc_mail_name": "{%-if cookiecutter.hpc != 'None' -%}{%- if cookiecutter.github_username != '' -%}{{ cookiecutter.github_username }}{% else %}{{ cookiecutter.full_name.replace(' ', '_') }}{% endif %}{% else %}(ignored){% endif %}"
 }
 

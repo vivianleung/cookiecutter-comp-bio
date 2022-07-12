@@ -6,6 +6,7 @@
 __{{cookiecutter.full_name}}__
 
 Created:      {% now 'utc', '%d %b %Y' %}
+
 Last updated: {% now 'utc', '%d %b %Y' %}
 
 {% set full_name_list = cookiecutter.full_name.split(' ') %}
