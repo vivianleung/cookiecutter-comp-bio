@@ -7,8 +7,8 @@ import os
 import shutil
 
 PROJECT_DIRECTORY = os.path.realpath(os.path.curdir)
-
-PBS_TEMPLATE = """{% raw %}#!/usr/bin/env bash
+{% raw %}
+PBS_TEMPLATE = """#!/usr/bin/env bash
 
 # _template.pbs
 
@@ -63,8 +63,8 @@ get_mem_info() {
     medq1|gpuq1) echo 1500 ;;
     fatq) echo 3000 ;;
     *)
-      local -i memfree=$(grep "MemFree:" /proc/meminfo \\
-                         | sed -E 's/^MemFree:\s+([0-9]+)\s+kB$/\1/')
+      local -i memfree=$(grep "MemFree:" /proc/meminfo \\\
+                         | sed -E 's/^MemFree:\\s+([0-9]+)\\s+kB$/\\1/')
       echo $(( memfree / 10**6-1 * 3 / 4 ))
       ;;
   esac
@@ -133,7 +133,7 @@ join_by () {
 is_dry_run () { [[ "${DRY_RUN:-n}" =~ ^y|Y$ ]] && return 0 || return 1 ; }
 
 printf_eval_cmd () { 
-  join_by ' ' '$' "$@" && printf '\n'
+  join_by ' ' '$' "$@" && printf '\\n'
   if is_dry_run ; then return 0 ; else eval "$@" ; return $? ; fi
 }
 
@@ -155,18 +155,18 @@ check_passed_failed () {
 				Failed:
 			FAILED_RUNS
     fi
-    printf "\n>> [$2] STOPPING: ERROR: exit status %s\n" $1 | tee -a /dev/stderr
-    printf '> %s (exit code: %s)\n' "$2" "$1" >> "${failed_log}"
+    printf "\\n>> [$2] STOPPING: ERROR: exit status %s\\n" $1 | tee -a /dev/stderr
+    printf '> %s (exit code: %s)\\n' "$2" "$1" >> "${failed_log}"
   fi
 }
 # USAGE printf_list HEADER LIST
-printf_list () { printf '\n%s\n' "$1" ; shift ; printf "> %s\n" "$@" ; }
+printf_list () { printf '\\n%s\\n' "$1" ; shift ; printf "> %s\\n" "$@" ; }
 
 # Trap
 epilogue () {
   
   if [ ${retcode} -ne 0 ] ; then
-    printf '\n\n>>>>> REACHED MAX FAILS! Exited with status %d <<<<<\n' \
+    printf '\\n\n>>>>> REACHED MAX FAILS! Exited with status %d <<<<<\\n' \\
       ${retcode} | tee -a /dev/stderr
   fi
 
@@ -183,7 +183,7 @@ epilogue () {
 	EPILOGUE_STDOUT
   
   [ ${#failed[@]} -gt 0 ] && printf_list "Failed:" "${failed[@]}"
-	[ ${#remaining[@]} -gt 0 ] && printf_list "Entries not processed:" \\
+	[ ${#remaining[@]} -gt 0 ] && printf_list "Entries not processed:" \\\
     "${remaining[@]}" | tee -a "${failed_log}"
 	
   cat <<-EPILOGUE_TIME | tee -a /dev/stderr
@@ -230,13 +230,13 @@ for mod in "${MODULES[@]}" ; do module load "${mod}" ; done
 [[ -f "${ROSTER}" ]] || { echo "File does not exist: ${ROSTER}" >&2 && exit 1 ; }
 
 # count up entries
-n_entries_in_roster=$(grep -cvxE "^\s*$" "${ROSTER}")
+n_entries_in_roster=$(grep -cvxE "^\\s*$" "${ROSTER}")
 
 # make a blank-line-free copy of roster
 roster="${PBS_O_WORKDIR}/${PBS_JOBNAME}-$(basename "${ROSTER%.*}")-roster-${JID}.${ROSTER##*.}"
 
-head -n ${END_ROW:-${n_entries_in_roster}} "${ROSTER}" | tail -n $(( ${END_ROW:-${n_entries_in_roster}}-${START_ROW:-1}+1 )) \
-  | grep -vE "^\s*$" > "${roster}"
+head -n ${END_ROW:-${n_entries_in_roster}} "${ROSTER}" | tail -n $(( ${END_ROW:-${n_entries_in_roster}}-${START_ROW:-1}+1 )) \\
+  | grep -vE "^\\s*$" > "${roster}"
 
 
 n_entries=$(wc -l "${roster}" | cut -d ' ' -f1)
@@ -299,7 +299,7 @@ cat <<-PROLOGUE
 	#TODO (template): << PARAMS >>
 	STEP: PROGRAM
 	-----------------
-	$(printf '%s\n' "${PARAMS[@]}")
+	$(printf '%s\\n' "${PARAMS[@]}")
 
 PROLOGUE
 
@@ -323,7 +323,7 @@ process_entry () {
 
 ####################  EXECUTE  ####################
 
-printf "============== EXECUTING..... ==============\n"
+printf "============== EXECUTING..... ==============\\n"
 
 if ! is_dry_run ; then
   mkdir -pv "${OUT_DIRS_TO_MAKE[@]}"
@@ -336,15 +336,15 @@ fi
 i=0
 declare -a args  # TODO (template) << ACCESSION [OTHER ARGS...] >>
 
-while IFS=$'\n' read -r line ; do
+while IFS=$'\\n' read -r line ; do
 
-  IFS=$'\t' read -d $'\n' -r -a args <<<"${line}"
+  IFS=$'\\t' read -d $'\\n' -r -a args <<<"${line}"
 
   if [ ${#failed[@]} -ge ${MAX_FAILS} ] ; then 
     remaining+=("${args[0]}")
   else
     i=$((i+1))
-    printf '\n[%s - %2d of %d] %s\n' "$(date +'%Y-%m-%d %H:%M')" \
+    printf '\\n[%s - %2d of %d] %s\\n' "$(date +'%Y-%m-%d %H:%M')" \\
       $i ${n_entries} "${args[0]}" | tee -a /dev/stderr
     (
       set -e

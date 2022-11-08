@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+{% raw %}#!/usr/bin/env bash
 
 # mkproject.sh
 #
@@ -284,13 +284,7 @@ ${description}
 
 ABOUT_TXT
 
-
-
-
-
-
-
-
 echo "Finished making project dir: ${proj_dir}"
 
+{% endraw %}
 # end of script
