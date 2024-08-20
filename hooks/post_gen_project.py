@@ -14,9 +14,9 @@ PBS_TEMPLATE = """#!/usr/bin/env bash
 
 # TODO (template) << PURPOSE >>
 
-# By Vivian Leung (vivianleung19@gmail.com)
-# Created:       14 Jun 2022
-# Last updated:  30 Jun 2022
+# {% endraw %}{{ cookiecutter.full_name }}{% raw %}
+# Created:       {% endraw %}{% now 'utc', '%d %b %Y' %}{% raw %}
+# Last updated:  {% endraw %}{% now 'utc', '%d %b %Y' %}{% raw %}
 
 # Todo
 ### Job name
@@ -45,6 +45,7 @@ PBS_TEMPLATE = """#!/usr/bin/env bash
 
 
 #######
+set -e
 set -o nounset
 set -o errtrace
 
@@ -63,8 +64,8 @@ get_mem_info() {
     medq1|gpuq1) echo 1500 ;;
     fatq) echo 3000 ;;
     *)
-      local -i memfree=$(grep "MemFree:" /proc/meminfo \\\
-                         | sed -E 's/^MemFree:\\s+([0-9]+)\\s+kB$/\\1/')
+      local -i memfree=$(grep "MemFree:" /proc/meminfo \
+                         | sed -E 's/^MemFree:\s+([0-9]+)\s+kB$/\1/')
       echo $(( memfree / 10**6-1 * 3 / 4 ))
       ;;
   esac
@@ -82,7 +83,7 @@ PROJECT_DIR={% endraw %}'{{ cookiecutter.project_slug }}'{% raw %}
 
 # todo: input roster
 # TODO (template): roster input description, e.g TSV of ACCESSION [OTHER ARGS..]
-ROSTER="${PROJECT_DIR}/config/rosters/roster.tsv"
+ROSTER="${PROJECT_DIR}/config/roster.tsv"
 
 # Job output dir
 OUT_DIR="${PROJECT_DIR}/${PBS_JOBNAME}-$(date +'%Y-%m-%d')-${PBS_JOBID%%.*}"
@@ -91,7 +92,7 @@ OUT_DIR="${PROJECT_DIR}/${PBS_JOBNAME}-$(date +'%Y-%m-%d')-${PBS_JOBID%%.*}"
 # START_ROW=7
 # END_ROW=8
 
-# CONDA_ENV=''
+# CONDA_ENV='vivian'
 MODULES=()
 MAX_FAILS=3
 
@@ -133,7 +134,7 @@ join_by () {
 is_dry_run () { [[ "${DRY_RUN:-n}" =~ ^y|Y$ ]] && return 0 || return 1 ; }
 
 printf_eval_cmd () { 
-  join_by ' ' '$' "$@" && printf '\\n'
+  join_by ' ' '$' "$@" && printf '\n'
   if is_dry_run ; then return 0 ; else eval "$@" ; return $? ; fi
 }
 
@@ -155,18 +156,18 @@ check_passed_failed () {
 				Failed:
 			FAILED_RUNS
     fi
-    printf "\\n>> [$2] STOPPING: ERROR: exit status %s\\n" $1 | tee -a /dev/stderr
-    printf '> %s (exit code: %s)\\n' "$2" "$1" >> "${failed_log}"
+    printf "\n>> [$2] STOPPING: ERROR: exit status %s\n" $1 | tee -a /dev/stderr
+    printf '> %s (exit code: %s)\n' "$2" "$1" >> "${failed_log}"
   fi
 }
 # USAGE printf_list HEADER LIST
-printf_list () { printf '\\n%s\\n' "$1" ; shift ; printf "> %s\\n" "$@" ; }
+printf_list () { printf '\n%s\n' "$1" ; shift ; printf "> %s\n" "$@" ; }
 
 # Trap
 epilogue () {
   
   if [ ${retcode} -ne 0 ] ; then
-    printf '\\n\n>>>>> REACHED MAX FAILS! Exited with status %d <<<<<\\n' \\
+    printf '\n\n>>>>> REACHED MAX FAILS! Exited with status %d <<<<<\n' \
       ${retcode} | tee -a /dev/stderr
   fi
 
@@ -183,7 +184,7 @@ epilogue () {
 	EPILOGUE_STDOUT
   
   [ ${#failed[@]} -gt 0 ] && printf_list "Failed:" "${failed[@]}"
-	[ ${#remaining[@]} -gt 0 ] && printf_list "Entries not processed:" \\\
+	[ ${#remaining[@]} -gt 0 ] && printf_list "Entries not processed:" \
     "${remaining[@]}" | tee -a "${failed_log}"
 	
   cat <<-EPILOGUE_TIME | tee -a /dev/stderr
@@ -212,7 +213,7 @@ JID="${PBS_JOBID%%.*}"
 cp "$0" "${PBS_O_WORKDIR}/${PBS_JOBNAME}-${JID}.pbs"
 
 # fpath for list of failed runs
-failed_log="${PBS_O_WORKDIR}/${PBS_JOBNAME}-${JID}-failed.txt"
+failed_log="${PBS_O_WORKDIR}/${PBS_JOBNAME}-failed-${JID}.txt"
 
 
 # #######  Prep environment  #####
@@ -230,13 +231,13 @@ for mod in "${MODULES[@]}" ; do module load "${mod}" ; done
 [[ -f "${ROSTER}" ]] || { echo "File does not exist: ${ROSTER}" >&2 && exit 1 ; }
 
 # count up entries
-n_entries_in_roster=$(grep -cvxE "^\\s*$" "${ROSTER}")
+n_entries_in_roster=$(grep -cvxE "^\s*$" "${ROSTER}")
 
 # make a blank-line-free copy of roster
 roster="${PBS_O_WORKDIR}/${PBS_JOBNAME}-$(basename "${ROSTER%.*}")-roster-${JID}.${ROSTER##*.}"
 
-head -n ${END_ROW:-${n_entries_in_roster}} "${ROSTER}" | tail -n $(( ${END_ROW:-${n_entries_in_roster}}-${START_ROW:-1}+1 )) \\
-  | grep -vE "^\\s*$" > "${roster}"
+head -n ${END_ROW:-${n_entries_in_roster}} "${ROSTER}" | tail -n $(( ${END_ROW:-${n_entries_in_roster}}-${START_ROW:-1}+1 )) \
+  | grep -vE "^\s*$" > "${roster}"
 
 
 n_entries=$(wc -l "${roster}" | cut -d ' ' -f1)
@@ -299,7 +300,7 @@ cat <<-PROLOGUE
 	#TODO (template): << PARAMS >>
 	STEP: PROGRAM
 	-----------------
-	$(printf '%s\\n' "${PARAMS[@]}")
+	$(printf '%s\n' "${PARAMS[@]}")
 
 PROLOGUE
 
@@ -323,7 +324,7 @@ process_entry () {
 
 ####################  EXECUTE  ####################
 
-printf "============== EXECUTING..... ==============\\n"
+printf "============== EXECUTING..... ==============\n"
 
 if ! is_dry_run ; then
   mkdir -pv "${OUT_DIRS_TO_MAKE[@]}"
@@ -336,15 +337,15 @@ fi
 i=0
 declare -a args  # TODO (template) << ACCESSION [OTHER ARGS...] >>
 
-while IFS=$'\\n' read -r line ; do
+while IFS=$'\n' read -r line ; do
 
-  IFS=$'\\t' read -d $'\\n' -r -a args <<<"${line}"
+  IFS=$'\t' read -d $'\n' -r -a args <<<"${line}"
 
   if [ ${#failed[@]} -ge ${MAX_FAILS} ] ; then 
     remaining+=("${args[0]}")
   else
     i=$((i+1))
-    printf '\\n[%s - %2d of %d] %s\\n' "$(date +'%Y-%m-%d %H:%M')" \\
+    printf '\n[%s - %2d of %d] %s\n' "$(date +'%Y-%m-%d %H:%M')" \
       $i ${n_entries} "${args[0]}" | tee -a /dev/stderr
     (
       set -e
@@ -353,15 +354,14 @@ while IFS=$'\\n' read -r line ; do
       process_entry "${args[@]}"
     )
     retcode=$?
-    check_passed_failed ${retcode} "${args[0]}"
+    check_passed_failed ${retcode} "$i: ${args[0]}"
     [[ "${TEST_RUN:-n}" =~ ^y|Y$ ]] && break
   fi
 done < "${roster}"
 
 
-# exit 0
+# Template by Vivian Leung (vivianleung10@gmail.com) (2022)
 
-# End of script
 {% endraw %}
 """
 
@@ -393,13 +393,13 @@ COMMAND
 GITIGNORE = """# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
+*$py.class
 
 # C extensions
 *.so
 
 # Distribution / packaging
 .Python
-env/
 build/
 develop-eggs/
 dist/
@@ -411,9 +411,13 @@ lib64/
 parts/
 sdist/
 var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+MANIFEST
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -428,12 +432,16 @@ pip-delete-this-directory.txt
 # Unit test / coverage reports
 htmlcov/
 .tox/
+.nox/
 .coverage
 .coverage.*
 .cache
 nosetests.xml
 coverage.xml
 *.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
 
 # Translations
 *.mo
@@ -441,6 +449,16 @@ coverage.xml
 
 # Django stuff:
 *.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
 
 # Sphinx documentation
 docs/_build/
@@ -458,14 +476,71 @@ target/
 # Pycharm
 .idea
 
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
+#   However, in case of collaboration, if having platform-specific dependencies or dependencies
+#   having no cross-platform support, pipenv may install dependencies that don't work, or not
+#   install all needed dependencies.
+#Pipfile.lock
+
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
 # VS Code
 .vscode/
+.code-workspace
+*.code-workspace
 
-# Spyder
-.spyproject/
+# vim
+*.swp
+*.swo
 
-# Jupyter NB Checkpoints
-.ipynb_checkpoints/
+# Mac
+.DS_Store
 
 # MS temp files
 ~$*.ppt*
@@ -501,45 +576,40 @@ target/
 *.toc
 *.vrb
 __latexindent_temp.tex
+_minted-main/
+*.pygtex
+*.pygstyle
 
-# exclude data from source control by default
-/projects/**/data*/**
-/projects/**/jobs/
-!/projects/**/data*/**/  # keep dir struct
-
-!*.log
-!log
-!*.py
-!*.pbs
-!*.[oej][0-9]*  # job logs
-!*.job[0-9]*
-# from kmergenie
-# /projects/**/*.histo
-# /projects/**/*.histo.pdf
-
-# Mac OS-specific storage files
-.DS_Store
-
-# vim
-*.swp
-*.swo
-
-# Mypy cache
-.mypy_cache/
-
-# virtual env
-/venv/
-/env/
-/venv/**
-
-!.gitkeep
-
-/workflow/analysis
-/workflow/analysis/*
+# Bio files
+*.fast[aqg]
+*.fast[aqg].gz
+*.f[aqg]
+*.f[aqg].gz
+*.[bv]cf
+*.[bv]cf.gz
+*.tbi
+*.idx
+*.bed
+*.bed.gz
+*.bam
+*.sam
 
 /tmp/
 
-.snakemake/
+# custom
+!*.[joe][0-9]+
+!*.pbs
+!*.py
+!*.ipynb
+!*.sh
+!notes.txt
+!NOTES.txt
+!README.*
+!readme.*
+!projects.txt
+!about.txt
+
+!.gitkeep
 
 """
 {% endraw %}

@@ -21,11 +21,6 @@ Project Organization
     ├── README.md          <- The top-level README for developers using this project.
     ├── bin/               <- Shell scripts and other executables
     │   └── mkproject.sh   <- generate data directory for a new project
-    ├── data
-    │   ├── external       <- Data from third party sources.
-    │   ├── interim        <- Intermediate data that has been transformed.
-    │   ├── processed      <- The final, canonical data sets for modeling.
-    │   └── raw            <- The original, immutable data dump.
     │
     ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
     │
@@ -64,37 +59,26 @@ For project directories
 -----------------------
 
 projects/
+└── PROJECT\_NAME
+    ├── about.txt
+    ├── bin            <-- Shell scripts
+    │   └── .gitkeep
+    ├── config         <-- Rosters, input params, etc.
+    │   └── .gitkeep
+    ├── data           <-- Raw and intermediate data files
+    │   └── .gitkeep
+    ├── docs           <-- Notes and other docs
+    │   └── .gitkeep
+    ├── .gitignore
+    ├── logs           <-- PBS job logs
+    │   └── .gitkeep
+    ├── pbs            <-- PBS scripts
+    │   └── .gitkeep
+    ├── scripts        <-- Structured Python scripts
+    │   └── .gitkeep
+    ├── snippets.py    <-- Miscellaneous and ad-hoc python snippets
+    └── snippets.sh    <-- Miscellaneous and ad-hoc shell snippets
 
-    └── PROJECT\_NAME/
-        ├── about.txt     <-- Metadata and description of project
-        │
-        ├── analysis/     <-- Analyzed data that can be used to make figures
-        │
-        ├── config/       <-- Config files
-        │   └── rosters/  <-- Roster tables used as input for jobs
-        │
-        ├── data/         <-- Raw/intermediate files
-        │   ├── .gitignore
-        │   └── .../
-        │
-        ├── exports/      <-- Finished figures and tables exported from analysis
-        │   ├── figures/  <-- figures
-        │   └── tables/   <-- formatted tables
-        │
-        ├── logs/         <-- Job log files
-        │
-        ├── notes/        <-- Notes written by user
-        │
-        ├── resources/    <-- (meta)data or supplementary/accessory external info 
-        │
-        ├── jobs/         <-- Parent directory for running jobs
-        │   ├── .gitignore
-        │   └── JOB_NAME-DATE-JID/
-        │
-        ├── scripts/      <-- ad-hoc scripts used in this particular project
-        │
-        ├── snippets.py
-        └── snippets.sh
 
 --------
 <p><small>Cookiecutter project created from vivianleung/cookiecutter-comp-bio</small></p>
